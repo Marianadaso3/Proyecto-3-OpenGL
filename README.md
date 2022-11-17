@@ -4,8 +4,6 @@ Controles
 
   Cambio de objeto 
   
-  
-  
     - c: cono
     - h: hat (sombrero)
     - l: llanta
@@ -16,4 +14,11 @@ Controles
 
     - z: in
     - x: out
+  
+  Movimiento de camara 
+  
+    - a: lado derecho 
+    - d: lado izquierdo 
+    - w: arriba 
+    - s: abajo 
     
