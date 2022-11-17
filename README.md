@@ -24,8 +24,8 @@ Controles
     
   Rotaciones
   
-    - y:
-    - u:
+    - y: rotacion hacia izquierda
+    - u: rotacion hacia derecha 
     - i:
     - o: 
     
