@@ -26,8 +26,6 @@ Controles
   
     - y: rotacion hacia derecha
     - u: rotacion hacia iquierda 
-    - i:
-    - o: 
     
   Manejo de luces 
   
