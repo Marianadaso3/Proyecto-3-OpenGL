@@ -37,6 +37,6 @@ Controles
     
   Cambio de shaders
   
-     -1: filledMode
-     -2: wireframe
-     -3: fragment shader
+     -1: vertex_shader 
+     -2: fragment_shader
+
