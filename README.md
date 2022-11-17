@@ -30,6 +30,8 @@ Controles
     - o: 
     
   Manejo de luces 
+  
+  
     - Left: iquierda
     - Right: derecha
     - Up: arriba
