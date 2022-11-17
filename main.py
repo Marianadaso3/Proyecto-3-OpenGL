@@ -3,48 +3,10 @@
 #Codigo referencia: https://github.com/churly92/RendererOpenGL_2022
 #Autor: Mariana David 201055
 
-#Importaciones
-from pickle import TRUE
-import pygame
-import pygame, sys
-from pygame.locals import *
-from shaders import *
-from gl import Renderer, Model
-from math import cos, sin, radians
 
-#Medidas de ventana
-width = 1000
-height = 600
 
-#Tiempo
-deltaTime = 0.0
 
-#Inicialización
-pygame.init()
-screen = pygame.display.set_mode((width, height), pygame.OPENGL | pygame.DOUBLEBUF)
-clock = pygame.time.Clock()
 
-rend = Renderer(screen)
-rend.setShaders(vertex_shader, fragment_shader )
-rend.target.z = -5
-
-objeto = Model("planta.obj", "textp.jpg")
-#objeto = Model("cono.obj", "textc.png")
-#objeto = Model("hat.obj", "txth.jpg")
-#objeto = Model("llanta.obj", "textll.jpg")
-#objeto = Model("taza.obj", "textt.jpg")
-
-# #Cono/planta
-objeto.position.z -= 9
-objeto.position.y -= 2
-objeto.position.x -= 0
-objeto.scale.x = 10
-objeto.scale.y = 10
-objeto.scale.z = 10
-
-#fondo2
-fondo = pygame.image.load("fondo.jpg")
-screen.blit(fondo, (0,0))
 
 #Prueba de posiciones
 #Taza
@@ -62,7 +24,45 @@ screen.blit(fondo, (0,0))
 # objeto.scale.y = 4
 # objeto.scale.z = 4
 
+
+#Importaciones
+import pygame
+from pygame.locals import *
+from shaders import *
+from gl import Renderer, Model
+from math import cos, sin, radians
+import shaders 
+
+#Medidas de ventana
+width = 1000
+height = 600
+
+#Tiempo
+deltaTime = 0.0
+
+#Inicialización
+pygame.init()
+screen = pygame.display.set_mode((width, height), pygame.DOUBLEBUF | pygame.OPENGL)
+clock = pygame.time.Clock()
+
+rend = Renderer(screen)
+rend.setShaders(shaders.vertex_shader, shaders.fragment_shader )
+rend.target.z = -5
+
+#Inicializar con un objeto predeterminado
+objeto = Model('planta.obj', 'textp.jpg')
+# #Cono/planta
+objeto.position.z -= 9
+objeto.position.y -= 2
+objeto.position.x -= 0
+objeto.scale.x = 10
+objeto.scale.y = 10
+objeto.scale.z = 10
 rend.scene.append( objeto )
+
+#fondo2
+fondo = pygame.image.load("fondo.jpg")
+screen.blit(fondo, (0,0))
 
 #Sonido de fondo 
 pygame.mixer.music.load("slow.mp3")
@@ -71,10 +71,9 @@ pygame.mixer.music.play(10)
 
 isRunning = True
 while isRunning:
-
     keys = pygame.key.get_pressed()
-    #Movimiento del objeto
-    #rend.scene[0].rotation.y += 25 * deltaTime
+
+    #Cambios de objetos 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             isRunning = False
@@ -85,12 +84,12 @@ while isRunning:
 
             if event.key == K_c:
                 #Modelo Cono
-                pygame.init()
+                pygame.init() 
                 #Definir escena con objeto y renderizarla
                 screen1 = pygame.display.set_mode((width,height), pygame.DOUBLEBUF | pygame.OPENGL)
                 rend = Renderer (screen1)
-                #rend.setShaders(shaders.vertex_shader, shaders.fragment_shader)
-                objecto = Model("cono.obj", "model_normal.bmp")
+                rend.setShaders(shaders.vertex_shader, shaders.fragment_shader)
+                objeto = Model("cono.obj", "textc.png")
                 #Posición para que se vea bien
                 objeto.position.z -= 9
                 objeto.position.y -= 2
@@ -100,14 +99,15 @@ while isRunning:
                 objeto.scale.z = 10
                 #Renderizar objeto Cono
                 rend.scene.append(objeto)
+
             
             if event.key == K_h:
                 #Modelo Hat (Sombrero)
                 pygame.init()
                 screen2 = pygame.display.set_mode((width,height), pygame.DOUBLEBUF | pygame.OPENGL)
                 rend = Renderer (screen2)
-                #rend.setShaders(shaders.vertex_shader, shaders.fragment_shader)
-                objecto = Model("hat.obj", "model_normal.bmp")
+                rend.setShaders(shaders.vertex_shader, shaders.fragment_shader)
+                objeto = Model("hat.obj", "txth.jpg")
                 #Posición para que se vea bien
                 objeto.position.z -= 8
                 objeto.position.y -= 0.5
@@ -118,13 +118,14 @@ while isRunning:
                 #Renderizar objeto Hat (Sombrero)
                 rend.scene.append(objeto)
 
+
             if event.key == K_l:
                 #Modelo Llanta
                 pygame.init()
                 screen3 = pygame.display.set_mode((width,height), pygame.DOUBLEBUF | pygame.OPENGL)
                 rend = Renderer (screen3)
-                #rend.setShaders(shaders.vertex_shader, shaders.fragment_shader)
-                objecto = Model("llanta.obj", "model_normal.bmp")
+                rend.setShaders(shaders.vertex_shader, shaders.fragment_shader)
+                objeto = Model("llanta.obj", "textll.jpg")
                 #Posición para que se vea bien
                 objeto.position.z -= 8
                 objeto.position.y -= 0.5
@@ -134,31 +135,15 @@ while isRunning:
                 objeto.scale.z = 4 
                 #Renderizar objeto Llanta
                 rend.scene.append(objeto)
-            
-            # if event.key == K_p:
-            #     #Modelo Planta
-            #     pygame.init()
-            #     screen4 = pygame.display.set_mode((width,height), pygame.DOUBLEBUF | pygame.OPENGL)
-            #     rend = Renderer (screen4)
-            #     #rend.setShaders(shaders.vertex_shader, shaders.fragment_shader)
-            #     objecto = Model("planta.obj", "model_normal.bmp")
-            #     #Posición para que se vea bien
-            #     objeto.position.z -= 9
-            #     objeto.position.y -= 2
-            #     objeto.position.x -= 0
-            #     objeto.scale.x = 10
-            #     objeto.scale.y = 10
-            #     objeto.scale.z = 10
-            #     #Renderizar objeto Planta
-            #     rend.scene.append(objeto)
+
 
             if event.key == K_t:
                 #Modelo Taza
                 pygame.init()
-                screen5 = pygame.display.set_mode((width,height), pygame.DOUBLEBUF | pygame.OPENGL)
-                rend = Renderer (screen5)
-                #rend.setShaders(shaders.vertex_shader, shaders.fragment_shader)
-                objecto = Model("taza.obj", "model_normal.bmp")
+                screen4 = pygame.display.set_mode((width,height), pygame.DOUBLEBUF | pygame.OPENGL)
+                rend = Renderer (screen4)
+                rend.setShaders(shaders.vertex_shader, shaders.fragment_shader)
+                objeto = Model("taza.obj", "textt.jpg")
                 #Posición para que se vea bien
                 objeto.position.z -= 4
                 objeto.position.y -= 0.9
@@ -169,19 +154,29 @@ while isRunning:
                 #Renderizar objeto Taza
                 rend.scene.append(objeto)
 
+            if event.key == K_p:
+                #Modelo Planta
+                pygame.init()
+                screen5 = pygame.display.set_mode((width,height), pygame.DOUBLEBUF | pygame.OPENGL)
+                rend = Renderer (screen5)
+                rend.setShaders(shaders.vertex_shader, shaders.fragment_shader)
+                objeto = Model('planta.obj', 'textp.jpg')
+                #Posicion de planta
+                objeto.position.z -= 9
+                objeto.position.y -= 2
+                objeto.position.x -= 0
+                objeto.scale.x = 10
+                objeto.scale.y = 10
+                objeto.scale.z = 10
+                 #Renderizar objeto Planta de nuevo
+                rend.scene.append( objeto )
+
             #Asignacion de shaders con keys 
             if event.key == K_1:
-                rend.filledMode()
+                rend.setShaders(shaders.vertex_shader, shaders.fragment_shader)
             if event.key == K_2:
-                rend.wireframeMode()
-            if event.key == K_3:
-                rend.setShaders(vertex_shader, fragment_shader)
-            if event.key == K_4:
-                rend.setShaders(vertex_shader, fragment_shader)
+                rend.setShaders(shaders.vertex_shader, shaders.fragment_shader)
 
-    #DisCamara
-    distance = ((rend.camPosition.x)**2 + (rend.camPosition.y)**2 + (rend.camPosition.z)**2)**0.5
-    
     #Zoom 
     if keys[K_z]:
         if rend.camDistance > 2:
@@ -210,10 +205,6 @@ while isRunning:
     if keys[K_u]:
         rend.scene[0].rotation.y -= 15 * deltaTime
 
-    rend.target.y = rend.camPosition.y
-    rend.camPosition.x = rend.target.x + sin(radians(rend.angle)) * rend.camDistance
-    rend.camPosition.z = rend.target.z + cos(radians(rend.angle)) * rend.camDistance
-    
     #Manejo de luces 
     if keys[K_LEFT]:
         rend.pointLight.x -= 10 * deltaTime
@@ -224,6 +215,9 @@ while isRunning:
     elif keys[K_DOWN]:
         rend.pointLight.y -= 10 * deltaTime
 
+    rend.target.y = rend.camPosition.y
+    rend.camPosition.x = rend.target.x + sin(radians(rend.angle)) * rend.camDistance
+    rend.camPosition.z = rend.target.z + cos(radians(rend.angle)) * rend.camDistance
 
     #Finalizacón 
     deltaTime = clock.tick(60) / 1000
