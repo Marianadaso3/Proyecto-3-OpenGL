@@ -230,6 +230,7 @@ class Renderer(object):
 
         self.viewMatrix = glm.lookAt(self.camPosition, self.target, glm.vec3(0,1,0))
 
+    
 
 
     def render(self):

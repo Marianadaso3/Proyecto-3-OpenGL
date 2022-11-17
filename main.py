@@ -6,6 +6,7 @@
 #Importaciones
 from pickle import TRUE
 import pygame
+import pygame, sys
 from pygame.locals import *
 from shaders import *
 from gl import Renderer, Model
@@ -24,10 +25,14 @@ screen = pygame.display.set_mode((width, height), pygame.OPENGL | pygame.DOUBLEB
 clock = pygame.time.Clock()
 
 rend = Renderer(screen)
-rend.setShaders(vertex_shader, fragment_shader)
+rend.setShaders(vertex_shader, fragment_shader )
 rend.target.z = -5
 
-objeto = Model("planta.obj", "model_normal.bmp")
+objeto = Model("planta.obj", "textp.jpg")
+#objeto = Model("cono.obj", "textc.png")
+#objeto = Model("hat.obj", "txth.jpg")
+#objeto = Model("llanta.obj", "textll.jpg")
+#objeto = Model("taza.obj", "textt.jpg")
 
 # #Cono/planta
 objeto.position.z -= 9
@@ -36,15 +41,20 @@ objeto.position.x -= 0
 objeto.scale.x = 10
 objeto.scale.y = 10
 objeto.scale.z = 10
+
+#fondo2
+fondo = pygame.image.load("fondo.jpg")
+screen.blit(fondo, (0,0))
+
 #Prueba de posiciones
-# #Taza
+#Taza
 # objeto.position.z -= 4
 # objeto.position.y -= 0.9
 # objeto.position.x -= 0.7
 # objeto.scale.x = 0.2
 # objeto.scale.y = 0.2
-# objeto.scale.z = 0.2i
-# # #HAT/wheel
+# objeto.scale.z = 0.2
+# #HAT/wheel
 # objeto.position.z -= 8
 # objeto.position.y -= 0.5
 # objeto.position.x -= 0
@@ -53,16 +63,18 @@ objeto.scale.z = 10
 # objeto.scale.z = 4
 
 rend.scene.append( objeto )
+
 #Sonido de fondo 
 pygame.mixer.music.load("slow.mp3")
 pygame.mixer.music.play(10)
+
 
 isRunning = True
 while isRunning:
 
     keys = pygame.key.get_pressed()
     #Movimiento del objeto
-    rend.scene[0].rotation.y += 25 * deltaTime
+    #rend.scene[0].rotation.y += 25 * deltaTime
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             isRunning = False
@@ -78,7 +90,7 @@ while isRunning:
                 screen1 = pygame.display.set_mode((width,height), pygame.DOUBLEBUF | pygame.OPENGL)
                 rend = Renderer (screen1)
                 #rend.setShaders(shaders.vertex_shader, shaders.fragment_shader)
-                objecto = Model("planta.obj", "model_normal.bmp")
+                objecto = Model("cono.obj", "model_normal.bmp")
                 #Posición para que se vea bien
                 objeto.position.z -= 9
                 objeto.position.y -= 2
@@ -172,33 +184,31 @@ while isRunning:
     
     #Zoom 
     if keys[K_z]:
-        rend.camPosition += 0.01
-    if keys[K_x]:
-        rend.camPosition -= 0.01
+        if rend.camDistance > 2:
+            rend.camDistance -= 2 * deltaTime
+    elif keys[K_x]:
+        if rend.camDistance < 10:
+            rend.camDistance += 2 * deltaTime
     
-    #Traslaciones de camara con keys 
-    if keys[K_w]:
-            rend.camPosition.z += 1 * deltaTime
-    if keys[K_s]:
-        rend.camPosition.z -= 1 * deltaTime
-    if keys[K_d]:
-            rend.camPosition.x += 1 * deltaTime
+    #Movimiento de camara con keys 
+    #Lado a Lado 
     if keys[K_a]:
-        rend.camPosition.x -= 1 * deltaTime
-    if keys[K_q]:
-        rend.camPosition.y -= 1 * deltaTime
-    if keys[K_e]:
-        rend.camPosition.y += 1 * deltaTime
+        rend.angle -= 30 * deltaTime
+    elif keys[K_d]:
+        rend.angle += 30 * deltaTime
+    #Arriba y abajo 
+    if keys[K_w]:
+        if rend.camPosition.y < 2:
+            rend.camPosition.y += 5 * deltaTime
+    elif keys[K_s]:
+        if rend.camPosition.y > -2:
+            rend.camPosition.y -= 5 * deltaTime
 
-    #Roraciones de la camara con respecto al objeto
+    #Rotaciones de la camara con respecto al objeto
     if keys[K_y]:
-        rend.camRotation.y += 15 * deltaTime
+        rend.scene[0].rotation.y += 15 * deltaTime
     if keys[K_u]:
-        rend.camRotation.y -= 15 * deltaTime
-    if keys[K_i]:
-        rend.camRotation, 25 * deltaTime
-    if keys[K_o]:
-        rend.camPosition, 25 * deltaTime
+        rend.scene[0].rotation.y -= 15 * deltaTime
 
     rend.target.y = rend.camPosition.y
     rend.camPosition.x = rend.target.x + sin(radians(rend.angle)) * rend.camDistance
