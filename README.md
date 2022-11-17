@@ -22,3 +22,21 @@ Controles
     - w: arriba 
     - s: abajo 
     
+  Rotaciones
+  
+    - y:
+    - u:
+    - i:
+    - o: 
+    
+  Manejo de luces 
+    - Left: iquierda
+    - Right: derecha
+    - Up: arriba
+    - Down: abajo 
+    
+  Cambio de shaders
+  
+     -1: filledMode
+     -2: wireframe
+     -3: fragment shader
